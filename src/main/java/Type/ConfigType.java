@@ -8,18 +8,14 @@ public class ConfigType implements Serializable {
 
 
 
-//    private SourceType sourceType = new SourceType();
-//
-//    public SourceType getSourceType() {
-//        return sourceType;
-//    }
-//
-//    public void setSourceType(SourceType sourceType) {
-//        this.sourceType = sourceType;
-//    }
+    public SourceType getSourceType() {
+        return sourceType;
+    }
 
+    public void setSourceType(SourceType sourceType) {
+        this.sourceType = sourceType;
+    }
 
-    private ProxyType proxyType = new ProxyType();
 
     public ProxyType getProxyType() {
         return proxyType;
@@ -29,5 +25,9 @@ public class ConfigType implements Serializable {
         this.proxyType = proxyType;
     }
 
+
+    private SourceType sourceType = new SourceType();
+
+    private ProxyType proxyType = new ProxyType();
 }
 
