@@ -1,7 +1,6 @@
 package plugins.HttpAndSocks;
 
 import Plugin.Plugin;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
@@ -20,7 +19,7 @@ import plugins.HttpAndSocks.util.Save;
 public class Main implements Plugin {
     @Override
     public String getName() {
-        return "Http&Socks";
+        return "HttpAndSocks";
     }
 
     @Override
