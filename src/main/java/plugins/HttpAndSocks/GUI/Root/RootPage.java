@@ -36,7 +36,7 @@ public class RootPage {
     String tabTitle;
     String localHost = "localhost";
 
-    private void run() {
+    private Integer run() throws Exception {
         String exe = new Exe().scanHAS();
 
         String localUri = String.format("%s:%s", localHost, textFieldLocalPort.getText());
@@ -56,7 +56,11 @@ public class RootPage {
 
         MessageBox.sendSystemInfo("提示", String.format("页面:%s\n服务启动中...\n(˵¯͒〰¯͒˵)", tabTitle));
         // 后台运行需要执行的命令
-        Cmd.bgRun(command, tabTitle);
+//        Cmd.bgRun(command, tabTitle);
+        Cmd cmd = new Cmd();
+        cmd.setCommand(command);
+        cmd.setTabTitle(tabTitle);
+        return cmd.call();
     }
 
     private void stop() {
@@ -198,7 +202,15 @@ public class RootPage {
         buttonRun.setOnAction(event -> {
             buttonRun.setDisable(true);
             buttonStop.setDisable(false);
-            new Thread(this::run).start();
+            new Thread(()->{
+                try {
+                    run();
+                } catch (Exception e) {
+                    buttonStop.setDisable(true);
+                    buttonRun.setDisable(false);
+                    throw new RuntimeException(e);
+                }
+            }).start();
         });
         buttonStop.setOnAction(event -> {
             buttonStop.setDisable(true);

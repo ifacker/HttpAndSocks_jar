@@ -1,6 +1,7 @@
 package plugins.HttpAndSocks.Control;
 
 import plugins.HttpAndSocks.Config.Config;
+import plugins.HttpAndSocks.error.MyCustomException;
 import plugins.HttpAndSocks.util.Cmd;
 import plugins.HttpAndSocks.util.MessageBox;
 import util.Download;
@@ -8,6 +9,7 @@ import Config.GlobalConfig;
 import util.FileIO;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,13 +60,22 @@ public class Exe {
             // 创建文件夹
             FileIO.createFolders(Config.execPath);
 
-            if (!Download.DownloadFile(GlobalConfig.configTypeNow.getSourceType().getProxyDownload() + downloadMap.get(enscanName),
+            String urlTmp = "";
+            if (!GlobalConfig.configTypeNow.getSourceType().getProxyDownload().equals("关闭")) {
+                urlTmp = GlobalConfig.configTypeNow.getSourceType().getProxyDownload();
+            }
+
+            if (!Download.DownloadFile(urlTmp + downloadMap.get(enscanName),
                     Config.execPath + enscanName)) {
                 MessageBox.showErrorAlert("error", "文件下载失败，可能是超时导致，请确认网络链接是否有效，或者在配置中切换下载源地址");
                 return;
             }
             if (!System.getProperty("os.name").contains("win")) {
-                Cmd.run("chmod +x " + Config.execPath + enscanName);
+                try {
+                    Cmd.run("chmod +x " + Config.execPath + enscanName);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 //        Cmd.run(Config.execPath + enscanName + " -h");
