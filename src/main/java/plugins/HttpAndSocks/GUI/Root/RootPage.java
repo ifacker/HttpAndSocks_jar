@@ -18,6 +18,7 @@ import plugins.HttpAndSocks.util.Save;
 
 public class RootPage {
     // 局部变量
+    Label labelVersion; // 现实版本信息
     Button buttonRun;   // 运行按钮
     Button buttonStop; // 停止按钮
     Button buttonSave; // 保存按钮
@@ -186,9 +187,12 @@ public class RootPage {
 
     // 底部的内容
     private Node bottom(Stage primaryStage, String name) {
-        HBox root = new HBox(10);
-        root.setAlignment(Pos.BOTTOM_RIGHT);
-        root.setPadding(new Insets(100, 10, 10, 10));
+        HBox hBox = new HBox(10);
+        hBox.setAlignment(Pos.BOTTOM_RIGHT);
+        hBox.setPadding(new Insets(100, 10, 10, 10));
+
+        // 显示版本信息
+        labelVersion = new Label(String.format("version: %s", Config.version));
 
         buttonRun = new Button("运行");
         buttonStop = new Button("停止");
@@ -202,7 +206,7 @@ public class RootPage {
         buttonRun.setOnAction(event -> {
             buttonRun.setDisable(true);
             buttonStop.setDisable(false);
-            new Thread(()->{
+            new Thread(() -> {
                 try {
                     run();
                 } catch (Exception e) {
@@ -241,7 +245,12 @@ public class RootPage {
             MessageBox.sendSystemInfo("保存提示", String.format("页面%s已更新\n(*´I`*)", name));
         });
 
-        root.getChildren().addAll(buttonRun, buttonStop, buttonSave);
+        hBox.getChildren().addAll(buttonRun, buttonStop, buttonSave);
+
+        VBox root = new VBox(10);
+        root.setPadding(new Insets(0, 0, 10, 10));
+        root.setAlignment(Pos.BOTTOM_LEFT);
+        root.getChildren().addAll(hBox, labelVersion);
 
         return root;
     }

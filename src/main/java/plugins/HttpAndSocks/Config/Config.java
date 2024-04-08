@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Config {
+    public static  String version = "v1.1.1";
     public static String localhostdef = "localhost";
     public static String portLocaldef = "20000";
 
